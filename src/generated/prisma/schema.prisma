@@ -1,0 +1,80 @@
+// Accréditation média LGEF — schema dédié "accred", isolé de public/auth
+// (même pattern que ir2f : évite qu'un `prisma db push` depuis ce repo
+// ne touche aux tables d'un autre compartiment du même projet Supabase).
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["partialIndexes"]
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["accred"]
+}
+
+model accred_competitions {
+  id         String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String
+  event_date DateTime?         @db.Date
+  is_active  Boolean?          @default(true)
+  created_at DateTime?         @default(now()) @db.Timestamptz(6)
+  requests   accred_requests[]
+
+  @@schema("accred")
+}
+
+/// Liste des fonctions proposées dans le formulaire public (Photographe,
+/// Caméraman, ...), éditable depuis l'admin — même principe que les compétitions.
+model accred_functions {
+  id         String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name       String            @unique
+  is_active  Boolean?          @default(true)
+  created_at DateTime?         @default(now()) @db.Timestamptz(6)
+  requests   accred_requests[]
+
+  @@schema("accred")
+}
+
+/// Comptes admin autorisés à gérer les accréditations. role distingue le
+/// super_admin (gère cette liste) des managers (traitent les demandes) —
+/// email doit correspondre à un compte Supabase Auth existant (même projet
+/// que lgef-quiz-), aucun système de login séparé.
+model accred_admins {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email      String    @unique
+  role       String    @default("manager") // super_admin | manager
+  created_at DateTime? @default(now()) @db.Timestamptz(6)
+
+  @@schema("accred")
+}
+
+/// Demande d'accréditation média. response_message reste générique (pas
+/// "email_message") pour pouvoir servir à un futur envoi WhatsApp.
+/// zone_terrain/zone_tribune/zone_vestiaires : cochées par l'admin à la
+/// validation, pas par le demandeur — pilotent le rendu du badge PDF.
+model accred_requests {
+  id               String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  first_name       String
+  last_name        String
+  email            String
+  phone            String?
+  organization     String
+  function_id      String              @db.Uuid
+  photo_url        String
+  competition_id   String              @db.Uuid
+  match_name       String
+  status           String              @default("pending") // pending | approved | rejected
+  response_message String?
+  zone_terrain     Boolean             @default(false)
+  zone_tribune     Boolean             @default(false)
+  zone_vestiaires  Boolean             @default(false)
+  badge_pdf_url    String?
+  reviewed_by      String?             @db.Uuid
+  reviewed_at      DateTime?           @db.Timestamptz(6)
+  created_at       DateTime            @default(now()) @db.Timestamptz(6)
+  competition      accred_competitions @relation(fields: [competition_id], references: [id])
+  function         accred_functions    @relation(fields: [function_id], references: [id])
+
+  @@schema("accred")
+}
