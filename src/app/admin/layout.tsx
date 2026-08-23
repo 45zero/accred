@@ -2,6 +2,8 @@ import { redirect } from 'next/navigation'
 import { requireAccredAdmin } from '@/lib/auth/require-accred-admin'
 import AdminNav from '@/components/admin/AdminNav'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const admin = await requireAccredAdmin().catch(() => null)
   if (!admin) redirect('/login')

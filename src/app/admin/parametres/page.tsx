@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma'
 import ParametresBoard from '@/components/admin/ParametresBoard'
 
+export const dynamic = 'force-dynamic'
+
 export default async function ParametresPage() {
   const [functions, competitions] = await Promise.all([
     prisma.accred_functions.findMany({ orderBy: { name: 'asc' } }),

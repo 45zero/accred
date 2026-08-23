@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma'
 import { requireAccredAdmin } from '@/lib/auth/require-accred-admin'
 import ManagersBoard from '@/components/admin/ManagersBoard'
 
+export const dynamic = 'force-dynamic'
+
 export default async function GestionnairesPage() {
   const admin = await requireAccredAdmin()
   if (admin.role !== 'super_admin') redirect('/admin')

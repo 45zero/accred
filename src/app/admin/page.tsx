@@ -1,6 +1,8 @@
 import { prisma } from '@/lib/prisma'
 import RequestsBoard from '@/components/admin/RequestsBoard'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminRequestsPage() {
   const requests = await prisma.accred_requests.findMany({
     include: { function: true, competition: true },
