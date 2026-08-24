@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Camera, Info, AlertTriangle, User, CalendarDays, ShieldCheck, Send } from 'lucide-react'
+import { Camera, Info, AlertTriangle, User, CalendarDays, ShieldCheck, Send, UserCircle2 } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { submitAccredRequest } from '@/lib/actions/submit-request'
 
@@ -122,7 +122,13 @@ export default function DemandeForm({ functions, competitions }: { functions: Op
       <div style={{ maxWidth: 640, margin: '0 auto', padding: '0 0 64px' }}>
 
         {/* Bandeau */}
-        <div style={{ background: `linear-gradient(135deg, ${NAVY} 0%, #142a5c 100%)`, padding: '40px 32px', display: 'flex', alignItems: 'center', gap: 20 }}>
+        <div style={{ background: `linear-gradient(135deg, ${NAVY} 0%, #142a5c 100%)`, padding: '40px 32px', display: 'flex', alignItems: 'center', gap: 20, position: 'relative' }}>
+          <a href="/admin" title="Espace admin" style={{
+            position: 'absolute', top: 16, right: 16, display: 'flex', alignItems: 'center', justifyContent: 'center',
+            width: 36, height: 36, borderRadius: '50%', background: 'rgba(255,255,255,0.1)', color: 'rgba(255,255,255,0.85)',
+          }}>
+            <UserCircle2 size={22} />
+          </a>
           <img src="/logo_lgef.png" alt="LGEF" style={{ height: 72, objectFit: 'contain' }} onError={e => { (e.target as HTMLImageElement).style.display = 'none' }} />
           <div>
             <h1 style={{ fontSize: 32, fontWeight: 900, color: '#fff', lineHeight: 1.05, margin: 0, letterSpacing: 0.5 }}>
