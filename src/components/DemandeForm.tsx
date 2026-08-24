@@ -46,6 +46,7 @@ export default function DemandeForm({ functions, competitions }: { functions: Op
   const [accreditationType, setAccreditationType] = useState<'ponctuelle' | 'permanente'>('ponctuelle')
   const [competitionId, setCompetitionId] = useState('')
   const [matchName, setMatchName] = useState('')
+  const [message, setMessage] = useState('')
 
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -57,8 +58,9 @@ export default function DemandeForm({ functions, competitions }: { functions: Op
   }
 
   async function handleSubmit() {
-    const matchRequired = accreditationType === 'ponctuelle'
-    if (!photoFile || !lastName.trim() || !firstName.trim() || !email.trim() || !organization.trim() || !functionId || !competitionId || (matchRequired && !matchName.trim())) {
+    const isPonctuelle = accreditationType === 'ponctuelle'
+    if (!photoFile || !lastName.trim() || !firstName.trim() || !email.trim() || !organization.trim() || !functionId
+      || (isPonctuelle && (!competitionId || !matchName.trim()))) {
       setError('Merci de compléter tous les champs obligatoires.')
       return
     }
@@ -83,8 +85,9 @@ export default function DemandeForm({ functions, competitions }: { functions: Op
       organization,
       functionId,
       accreditationType,
-      competitionId,
-      matchName: matchRequired ? matchName : undefined,
+      competitionId: isPonctuelle ? competitionId : undefined,
+      matchName: isPonctuelle ? matchName : undefined,
+      message,
       photoUrl: pub.publicUrl,
     })
 
@@ -219,18 +222,38 @@ export default function DemandeForm({ functions, competitions }: { functions: Op
             </div>
           </FormRow>
 
-          <FormRow label="Compétition *" last={accreditationType === 'permanente'}>
-            <select style={{ ...inputStyle, cursor: 'pointer' }} value={competitionId} onChange={e => setCompetitionId(e.target.value)}>
-              <option value="">Sélectionnez une compétition</option>
-              {competitions.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
-            </select>
-          </FormRow>
+          {accreditationType === 'permanente' && (
+            <div style={{ display: 'flex', gap: 12, background: '#fffbeb', border: '1px solid #fde68a', borderRadius: 10, padding: '14px 16px', marginBottom: 20 }}>
+              <AlertTriangle size={18} color="#92400e" style={{ flexShrink: 0 }} />
+              <p style={{ fontSize: 13, color: '#92400e', lineHeight: 1.5, margin: 0 }}>
+                Une demande d&apos;accréditation permanente signifie que vous êtes déjà en contact avec les instances de la Ligue Grand Est de Football.
+                C&apos;est une demande spécifique, réservée à une collaboration déjà établie. Si ce n&apos;est pas votre cas, veuillez choisir l&apos;accréditation ponctuelle.
+              </p>
+            </div>
+          )}
 
           {accreditationType === 'ponctuelle' && (
-            <FormRow label="Match *" last>
-              <input style={inputStyle} placeholder="Ex : FC Metz - AS Nancy" value={matchName} onChange={e => setMatchName(e.target.value)} />
-            </FormRow>
+            <>
+              <FormRow label="Compétition *">
+                <select style={{ ...inputStyle, cursor: 'pointer' }} value={competitionId} onChange={e => setCompetitionId(e.target.value)}>
+                  <option value="">Sélectionnez une compétition</option>
+                  {competitions.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+              </FormRow>
+
+              <FormRow label="Match *">
+                <input style={inputStyle} placeholder="Ex : FC Metz - AS Nancy" value={matchName} onChange={e => setMatchName(e.target.value)} />
+              </FormRow>
+            </>
           )}
+
+          <FormRow label="Message (optionnel)" last>
+            <textarea
+              value={message} onChange={e => setMessage(e.target.value)} rows={3}
+              placeholder="Précisez votre situation si besoin (contact à la Ligue, contexte de la demande...)"
+              style={{ ...inputStyle, resize: 'vertical' }}
+            />
+          </FormRow>
 
           {error && (
             <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, padding: '10px 14px', color: RED, fontSize: 13, marginBottom: 20 }}>

@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma'
 import { sendResendEmail, emailShell, emailButton } from '@/lib/email'
+import { SITE_URL } from '@/lib/siteUrl'
 
 export type SubmitAccredRequestInput = {
   firstName: string
@@ -11,8 +12,9 @@ export type SubmitAccredRequestInput = {
   organization: string
   functionId: string
   accreditationType: 'ponctuelle' | 'permanente'
-  competitionId: string
+  competitionId?: string
   matchName?: string
+  message?: string
   photoUrl: string
 }
 
@@ -22,9 +24,10 @@ export async function submitAccredRequest(input: SubmitAccredRequestInput): Prom
   const email = input.email.trim()
   const organization = input.organization.trim()
   const matchName = input.matchName?.trim() || ''
-  const matchRequired = input.accreditationType === 'ponctuelle'
+  const isPonctuelle = input.accreditationType === 'ponctuelle'
 
-  if (!firstName || !lastName || !email || !organization || !input.functionId || !input.competitionId || !input.photoUrl || (matchRequired && !matchName)) {
+  if (!firstName || !lastName || !email || !organization || !input.functionId || !input.photoUrl
+    || (isPonctuelle && (!input.competitionId || !matchName))) {
     return { error: 'Champs requis manquants.' }
   }
 
@@ -37,8 +40,9 @@ export async function submitAccredRequest(input: SubmitAccredRequestInput): Prom
       organization,
       function_id: input.functionId,
       accreditation_type: input.accreditationType,
-      competition_id: input.competitionId,
-      match_name: matchRequired ? matchName : null,
+      competition_id: isPonctuelle ? input.competitionId : null,
+      match_name: isPonctuelle ? matchName : null,
+      message: input.message?.trim() || null,
       photo_url: input.photoUrl,
     },
   })
@@ -58,17 +62,17 @@ async function notifyAdminsOfNewRequest(requestId: string) {
   ])
   if (!request || admins.length === 0) return
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
   const eventLine = request.accreditation_type === 'permanente'
-    ? `<strong>${request.competition.name}</strong> (accréditation permanente)`
-    : `<strong>${request.competition.name}</strong> — ${request.match_name}`
+    ? 'une accréditation <strong>permanente</strong> (toutes compétitions)'
+    : `une accréditation pour <strong>${request.competition?.name}</strong> — ${request.match_name}`
 
   const html = emailShell('Nouvelle demande d\'accréditation', `
     <p style="color:#333;font-size:14px;line-height:1.6;">
-      <strong>${request.first_name} ${request.last_name}</strong> (${request.organization}) demande une accréditation
-      ${request.function.name.toLowerCase()} pour ${eventLine}.
+      <strong>${request.first_name} ${request.last_name}</strong> (${request.organization}) demande
+      ${eventLine}, en tant que ${request.function.name.toLowerCase()}.
     </p>
-    ${emailButton(`${siteUrl}/admin#request-${request.id}`, 'Traiter cette demande')}
+    ${request.message ? `<p style="color:#666;font-size:13px;background:#f8fafc;border-radius:8px;padding:10px 14px;">${request.message}</p>` : ''}
+    ${emailButton(`${SITE_URL}/admin#request-${request.id}`, 'Traiter cette demande')}
   `)
 
   await Promise.all(

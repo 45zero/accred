@@ -6,6 +6,7 @@ import { createClient } from '@/lib/supabase/server'
 import { requireAccredAdmin } from '@/lib/auth/require-accred-admin'
 import { generateMediaBadgePdf } from '@/lib/mediaBadgePdf'
 import { sendResendEmail, emailShell } from '@/lib/email'
+import { SITE_URL } from '@/lib/siteUrl'
 
 type RequestWithRelations = Awaited<ReturnType<typeof prisma.accred_requests.findUniqueOrThrow<{
   where: { id: string }
@@ -13,9 +14,14 @@ type RequestWithRelations = Awaited<ReturnType<typeof prisma.accred_requests.fin
 }>>>
 
 function eventLine(request: RequestWithRelations) {
-  return request.accreditation_type === 'permanente'
-    ? `${request.competition.name} (accréditation permanente)`
-    : `${request.competition.name} — ${request.match_name}`
+  if (request.accreditation_type === 'permanente') return 'accréditation permanente (toutes compétitions)'
+  return `${request.competition?.name ?? 'compétition'} — ${request.match_name}`
+}
+
+function storagePathFromPublicUrl(publicUrl: string): string | null {
+  const marker = '/accreditations/'
+  const idx = publicUrl.indexOf(marker)
+  return idx === -1 ? null : publicUrl.slice(idx + marker.length)
 }
 
 async function notifyOthersHandled(requestId: string, handledByEmail: string, outcome: string) {
@@ -51,8 +57,7 @@ export async function approveRequest(input: {
     include: { function: true, competition: true },
   })
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
-  const verifyUrl = `${siteUrl}/verify/${request.id}`
+  const verifyUrl = `${SITE_URL}/verify/${request.id}`
 
   let badgeBytes: Uint8Array | null = null
   try {
@@ -109,7 +114,7 @@ export async function approveRequest(input: {
   const html = emailShell('Accréditation confirmée', `
     <p style="color:#333;font-size:14px;line-height:1.6;">
       Bonjour ${request.first_name},<br /><br />
-      Votre demande d'accréditation pour <strong>${eventLine(request)}</strong> est acceptée.
+      Votre demande d'accréditation (${eventLine(request)}) est acceptée.
       ${badgeBytes ? "Votre badge est joint à cet e-mail." : "Votre badge vous sera transmis séparément."}
     </p>
     ${input.message.trim() ? `<p style="color:#666;font-size:13px;">${input.message.trim()}</p>` : ''}
@@ -150,5 +155,33 @@ export async function rejectRequest(input: { requestId: string; motif: string })
 
   await notifyOthersHandled(request.id, admin.email, 'refusée').catch(e => console.error('Erreur notification:', e))
 
+  revalidatePath('/admin')
+}
+
+export async function setRequestArchived(requestId: string, archived: boolean) {
+  await requireAccredAdmin()
+  await prisma.accred_requests.update({ where: { id: requestId }, data: { archived } })
+  revalidatePath('/admin')
+}
+
+/** Supprime définitivement la demande et ses fichiers (photo + badge). Prévu pour purger les demandes ponctuelles une fois le match passé — les permanentes sont censées rester, mais restent supprimables/modifiables au besoin (ex. accréditation révoquée). */
+export async function deleteRequest(requestId: string) {
+  await requireAccredAdmin()
+
+  const request = await prisma.accred_requests.findUnique({ where: { id: requestId } })
+  if (!request) return
+
+  const paths = [request.photo_url, request.badge_pdf_url]
+    .filter((u): u is string => !!u)
+    .map(storagePathFromPublicUrl)
+    .filter((p): p is string => !!p)
+
+  if (paths.length > 0) {
+    const supabase = await createClient()
+    const { error } = await supabase.storage.from('accreditations').remove(paths)
+    if (error) console.error('Erreur suppression fichiers storage:', error.message)
+  }
+
+  await prisma.accred_requests.delete({ where: { id: requestId } })
   revalidatePath('/admin')
 }

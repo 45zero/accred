@@ -4380,8 +4380,10 @@ export namespace Prisma {
     photo_url: string | null
     competition_id: string | null
     match_name: string | null
+    message: string | null
     accreditation_type: string | null
     status: string | null
+    archived: boolean | null
     response_message: string | null
     zone_terrain: boolean | null
     zone_tribune: boolean | null
@@ -4403,8 +4405,10 @@ export namespace Prisma {
     photo_url: string | null
     competition_id: string | null
     match_name: string | null
+    message: string | null
     accreditation_type: string | null
     status: string | null
+    archived: boolean | null
     response_message: string | null
     zone_terrain: boolean | null
     zone_tribune: boolean | null
@@ -4426,8 +4430,10 @@ export namespace Prisma {
     photo_url: number
     competition_id: number
     match_name: number
+    message: number
     accreditation_type: number
     status: number
+    archived: number
     response_message: number
     zone_terrain: number
     zone_tribune: number
@@ -4451,8 +4457,10 @@ export namespace Prisma {
     photo_url?: true
     competition_id?: true
     match_name?: true
+    message?: true
     accreditation_type?: true
     status?: true
+    archived?: true
     response_message?: true
     zone_terrain?: true
     zone_tribune?: true
@@ -4474,8 +4482,10 @@ export namespace Prisma {
     photo_url?: true
     competition_id?: true
     match_name?: true
+    message?: true
     accreditation_type?: true
     status?: true
+    archived?: true
     response_message?: true
     zone_terrain?: true
     zone_tribune?: true
@@ -4497,8 +4507,10 @@ export namespace Prisma {
     photo_url?: true
     competition_id?: true
     match_name?: true
+    message?: true
     accreditation_type?: true
     status?: true
+    archived?: true
     response_message?: true
     zone_terrain?: true
     zone_tribune?: true
@@ -4591,10 +4603,12 @@ export namespace Prisma {
     organization: string
     function_id: string
     photo_url: string
-    competition_id: string
+    competition_id: string | null
     match_name: string | null
+    message: string | null
     accreditation_type: string
     status: string
+    archived: boolean
     response_message: string | null
     zone_terrain: boolean
     zone_tribune: boolean
@@ -4633,8 +4647,10 @@ export namespace Prisma {
     photo_url?: boolean
     competition_id?: boolean
     match_name?: boolean
+    message?: boolean
     accreditation_type?: boolean
     status?: boolean
+    archived?: boolean
     response_message?: boolean
     zone_terrain?: boolean
     zone_tribune?: boolean
@@ -4643,7 +4659,7 @@ export namespace Prisma {
     reviewed_by?: boolean
     reviewed_at?: boolean
     created_at?: boolean
-    competition?: boolean | accred_competitionsDefaultArgs<ExtArgs>
+    competition?: boolean | accred_requests$competitionArgs<ExtArgs>
     function?: boolean | accred_functionsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["accred_requests"]>
 
@@ -4658,8 +4674,10 @@ export namespace Prisma {
     photo_url?: boolean
     competition_id?: boolean
     match_name?: boolean
+    message?: boolean
     accreditation_type?: boolean
     status?: boolean
+    archived?: boolean
     response_message?: boolean
     zone_terrain?: boolean
     zone_tribune?: boolean
@@ -4668,7 +4686,7 @@ export namespace Prisma {
     reviewed_by?: boolean
     reviewed_at?: boolean
     created_at?: boolean
-    competition?: boolean | accred_competitionsDefaultArgs<ExtArgs>
+    competition?: boolean | accred_requests$competitionArgs<ExtArgs>
     function?: boolean | accred_functionsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["accred_requests"]>
 
@@ -4683,8 +4701,10 @@ export namespace Prisma {
     photo_url?: boolean
     competition_id?: boolean
     match_name?: boolean
+    message?: boolean
     accreditation_type?: boolean
     status?: boolean
+    archived?: boolean
     response_message?: boolean
     zone_terrain?: boolean
     zone_tribune?: boolean
@@ -4693,7 +4713,7 @@ export namespace Prisma {
     reviewed_by?: boolean
     reviewed_at?: boolean
     created_at?: boolean
-    competition?: boolean | accred_competitionsDefaultArgs<ExtArgs>
+    competition?: boolean | accred_requests$competitionArgs<ExtArgs>
     function?: boolean | accred_functionsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["accred_requests"]>
 
@@ -4708,8 +4728,10 @@ export namespace Prisma {
     photo_url?: boolean
     competition_id?: boolean
     match_name?: boolean
+    message?: boolean
     accreditation_type?: boolean
     status?: boolean
+    archived?: boolean
     response_message?: boolean
     zone_terrain?: boolean
     zone_tribune?: boolean
@@ -4720,24 +4742,24 @@ export namespace Prisma {
     created_at?: boolean
   }
 
-  export type accred_requestsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "first_name" | "last_name" | "email" | "phone" | "organization" | "function_id" | "photo_url" | "competition_id" | "match_name" | "accreditation_type" | "status" | "response_message" | "zone_terrain" | "zone_tribune" | "zone_vestiaires" | "badge_pdf_url" | "reviewed_by" | "reviewed_at" | "created_at", ExtArgs["result"]["accred_requests"]>
+  export type accred_requestsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "first_name" | "last_name" | "email" | "phone" | "organization" | "function_id" | "photo_url" | "competition_id" | "match_name" | "message" | "accreditation_type" | "status" | "archived" | "response_message" | "zone_terrain" | "zone_tribune" | "zone_vestiaires" | "badge_pdf_url" | "reviewed_by" | "reviewed_at" | "created_at", ExtArgs["result"]["accred_requests"]>
   export type accred_requestsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    competition?: boolean | accred_competitionsDefaultArgs<ExtArgs>
+    competition?: boolean | accred_requests$competitionArgs<ExtArgs>
     function?: boolean | accred_functionsDefaultArgs<ExtArgs>
   }
   export type accred_requestsIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    competition?: boolean | accred_competitionsDefaultArgs<ExtArgs>
+    competition?: boolean | accred_requests$competitionArgs<ExtArgs>
     function?: boolean | accred_functionsDefaultArgs<ExtArgs>
   }
   export type accred_requestsIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    competition?: boolean | accred_competitionsDefaultArgs<ExtArgs>
+    competition?: boolean | accred_requests$competitionArgs<ExtArgs>
     function?: boolean | accred_functionsDefaultArgs<ExtArgs>
   }
 
   export type $accred_requestsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "accred_requests"
     objects: {
-      competition: Prisma.$accred_competitionsPayload<ExtArgs>
+      competition: Prisma.$accred_competitionsPayload<ExtArgs> | null
       function: Prisma.$accred_functionsPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -4749,10 +4771,12 @@ export namespace Prisma {
       organization: string
       function_id: string
       photo_url: string
-      competition_id: string
+      competition_id: string | null
       match_name: string | null
+      message: string | null
       accreditation_type: string
       status: string
+      archived: boolean
       response_message: string | null
       zone_terrain: boolean
       zone_tribune: boolean
@@ -5155,7 +5179,7 @@ export namespace Prisma {
    */
   export interface Prisma__accred_requestsClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    competition<T extends accred_competitionsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, accred_competitionsDefaultArgs<ExtArgs>>): Prisma__accred_competitionsClient<$Result.GetResult<Prisma.$accred_competitionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    competition<T extends accred_requests$competitionArgs<ExtArgs> = {}>(args?: Subset<T, accred_requests$competitionArgs<ExtArgs>>): Prisma__accred_competitionsClient<$Result.GetResult<Prisma.$accred_competitionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     function<T extends accred_functionsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, accred_functionsDefaultArgs<ExtArgs>>): Prisma__accred_functionsClient<$Result.GetResult<Prisma.$accred_functionsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -5196,8 +5220,10 @@ export namespace Prisma {
     readonly photo_url: FieldRef<"accred_requests", 'String'>
     readonly competition_id: FieldRef<"accred_requests", 'String'>
     readonly match_name: FieldRef<"accred_requests", 'String'>
+    readonly message: FieldRef<"accred_requests", 'String'>
     readonly accreditation_type: FieldRef<"accred_requests", 'String'>
     readonly status: FieldRef<"accred_requests", 'String'>
+    readonly archived: FieldRef<"accred_requests", 'Boolean'>
     readonly response_message: FieldRef<"accred_requests", 'String'>
     readonly zone_terrain: FieldRef<"accred_requests", 'Boolean'>
     readonly zone_tribune: FieldRef<"accred_requests", 'Boolean'>
@@ -5607,6 +5633,25 @@ export namespace Prisma {
   }
 
   /**
+   * accred_requests.competition
+   */
+  export type accred_requests$competitionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the accred_competitions
+     */
+    select?: accred_competitionsSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the accred_competitions
+     */
+    omit?: accred_competitionsOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: accred_competitionsInclude<ExtArgs> | null
+    where?: accred_competitionsWhereInput
+  }
+
+  /**
    * accred_requests without action
    */
   export type accred_requestsDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5681,8 +5726,10 @@ export namespace Prisma {
     photo_url: 'photo_url',
     competition_id: 'competition_id',
     match_name: 'match_name',
+    message: 'message',
     accreditation_type: 'accreditation_type',
     status: 'status',
+    archived: 'archived',
     response_message: 'response_message',
     zone_terrain: 'zone_terrain',
     zone_tribune: 'zone_tribune',
@@ -5941,10 +5988,12 @@ export namespace Prisma {
     organization?: StringFilter<"accred_requests"> | string
     function_id?: UuidFilter<"accred_requests"> | string
     photo_url?: StringFilter<"accred_requests"> | string
-    competition_id?: UuidFilter<"accred_requests"> | string
+    competition_id?: UuidNullableFilter<"accred_requests"> | string | null
     match_name?: StringNullableFilter<"accred_requests"> | string | null
+    message?: StringNullableFilter<"accred_requests"> | string | null
     accreditation_type?: StringFilter<"accred_requests"> | string
     status?: StringFilter<"accred_requests"> | string
+    archived?: BoolFilter<"accred_requests"> | boolean
     response_message?: StringNullableFilter<"accred_requests"> | string | null
     zone_terrain?: BoolFilter<"accred_requests"> | boolean
     zone_tribune?: BoolFilter<"accred_requests"> | boolean
@@ -5953,7 +6002,7 @@ export namespace Prisma {
     reviewed_by?: UuidNullableFilter<"accred_requests"> | string | null
     reviewed_at?: DateTimeNullableFilter<"accred_requests"> | Date | string | null
     created_at?: DateTimeFilter<"accred_requests"> | Date | string
-    competition?: XOR<Accred_competitionsScalarRelationFilter, accred_competitionsWhereInput>
+    competition?: XOR<Accred_competitionsNullableScalarRelationFilter, accred_competitionsWhereInput> | null
     function?: XOR<Accred_functionsScalarRelationFilter, accred_functionsWhereInput>
   }
 
@@ -5966,10 +6015,12 @@ export namespace Prisma {
     organization?: SortOrder
     function_id?: SortOrder
     photo_url?: SortOrder
-    competition_id?: SortOrder
+    competition_id?: SortOrderInput | SortOrder
     match_name?: SortOrderInput | SortOrder
+    message?: SortOrderInput | SortOrder
     accreditation_type?: SortOrder
     status?: SortOrder
+    archived?: SortOrder
     response_message?: SortOrderInput | SortOrder
     zone_terrain?: SortOrder
     zone_tribune?: SortOrder
@@ -5994,10 +6045,12 @@ export namespace Prisma {
     organization?: StringFilter<"accred_requests"> | string
     function_id?: UuidFilter<"accred_requests"> | string
     photo_url?: StringFilter<"accred_requests"> | string
-    competition_id?: UuidFilter<"accred_requests"> | string
+    competition_id?: UuidNullableFilter<"accred_requests"> | string | null
     match_name?: StringNullableFilter<"accred_requests"> | string | null
+    message?: StringNullableFilter<"accred_requests"> | string | null
     accreditation_type?: StringFilter<"accred_requests"> | string
     status?: StringFilter<"accred_requests"> | string
+    archived?: BoolFilter<"accred_requests"> | boolean
     response_message?: StringNullableFilter<"accred_requests"> | string | null
     zone_terrain?: BoolFilter<"accred_requests"> | boolean
     zone_tribune?: BoolFilter<"accred_requests"> | boolean
@@ -6006,7 +6059,7 @@ export namespace Prisma {
     reviewed_by?: UuidNullableFilter<"accred_requests"> | string | null
     reviewed_at?: DateTimeNullableFilter<"accred_requests"> | Date | string | null
     created_at?: DateTimeFilter<"accred_requests"> | Date | string
-    competition?: XOR<Accred_competitionsScalarRelationFilter, accred_competitionsWhereInput>
+    competition?: XOR<Accred_competitionsNullableScalarRelationFilter, accred_competitionsWhereInput> | null
     function?: XOR<Accred_functionsScalarRelationFilter, accred_functionsWhereInput>
   }, "id">
 
@@ -6019,10 +6072,12 @@ export namespace Prisma {
     organization?: SortOrder
     function_id?: SortOrder
     photo_url?: SortOrder
-    competition_id?: SortOrder
+    competition_id?: SortOrderInput | SortOrder
     match_name?: SortOrderInput | SortOrder
+    message?: SortOrderInput | SortOrder
     accreditation_type?: SortOrder
     status?: SortOrder
+    archived?: SortOrder
     response_message?: SortOrderInput | SortOrder
     zone_terrain?: SortOrder
     zone_tribune?: SortOrder
@@ -6048,10 +6103,12 @@ export namespace Prisma {
     organization?: StringWithAggregatesFilter<"accred_requests"> | string
     function_id?: UuidWithAggregatesFilter<"accred_requests"> | string
     photo_url?: StringWithAggregatesFilter<"accred_requests"> | string
-    competition_id?: UuidWithAggregatesFilter<"accred_requests"> | string
+    competition_id?: UuidNullableWithAggregatesFilter<"accred_requests"> | string | null
     match_name?: StringNullableWithAggregatesFilter<"accred_requests"> | string | null
+    message?: StringNullableWithAggregatesFilter<"accred_requests"> | string | null
     accreditation_type?: StringWithAggregatesFilter<"accred_requests"> | string
     status?: StringWithAggregatesFilter<"accred_requests"> | string
+    archived?: BoolWithAggregatesFilter<"accred_requests"> | boolean
     response_message?: StringNullableWithAggregatesFilter<"accred_requests"> | string | null
     zone_terrain?: BoolWithAggregatesFilter<"accred_requests"> | boolean
     zone_tribune?: BoolWithAggregatesFilter<"accred_requests"> | boolean
@@ -6233,8 +6290,10 @@ export namespace Prisma {
     organization: string
     photo_url: string
     match_name?: string | null
+    message?: string | null
     accreditation_type?: string
     status?: string
+    archived?: boolean
     response_message?: string | null
     zone_terrain?: boolean
     zone_tribune?: boolean
@@ -6243,7 +6302,7 @@ export namespace Prisma {
     reviewed_by?: string | null
     reviewed_at?: Date | string | null
     created_at?: Date | string
-    competition: accred_competitionsCreateNestedOneWithoutRequestsInput
+    competition?: accred_competitionsCreateNestedOneWithoutRequestsInput
     function: accred_functionsCreateNestedOneWithoutRequestsInput
   }
 
@@ -6256,10 +6315,12 @@ export namespace Prisma {
     organization: string
     function_id: string
     photo_url: string
-    competition_id: string
+    competition_id?: string | null
     match_name?: string | null
+    message?: string | null
     accreditation_type?: string
     status?: string
+    archived?: boolean
     response_message?: string | null
     zone_terrain?: boolean
     zone_tribune?: boolean
@@ -6279,8 +6340,10 @@ export namespace Prisma {
     organization?: StringFieldUpdateOperationsInput | string
     photo_url?: StringFieldUpdateOperationsInput | string
     match_name?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     accreditation_type?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
     response_message?: NullableStringFieldUpdateOperationsInput | string | null
     zone_terrain?: BoolFieldUpdateOperationsInput | boolean
     zone_tribune?: BoolFieldUpdateOperationsInput | boolean
@@ -6289,7 +6352,7 @@ export namespace Prisma {
     reviewed_by?: NullableStringFieldUpdateOperationsInput | string | null
     reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    competition?: accred_competitionsUpdateOneRequiredWithoutRequestsNestedInput
+    competition?: accred_competitionsUpdateOneWithoutRequestsNestedInput
     function?: accred_functionsUpdateOneRequiredWithoutRequestsNestedInput
   }
 
@@ -6302,10 +6365,12 @@ export namespace Prisma {
     organization?: StringFieldUpdateOperationsInput | string
     function_id?: StringFieldUpdateOperationsInput | string
     photo_url?: StringFieldUpdateOperationsInput | string
-    competition_id?: StringFieldUpdateOperationsInput | string
+    competition_id?: NullableStringFieldUpdateOperationsInput | string | null
     match_name?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     accreditation_type?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
     response_message?: NullableStringFieldUpdateOperationsInput | string | null
     zone_terrain?: BoolFieldUpdateOperationsInput | boolean
     zone_tribune?: BoolFieldUpdateOperationsInput | boolean
@@ -6325,10 +6390,12 @@ export namespace Prisma {
     organization: string
     function_id: string
     photo_url: string
-    competition_id: string
+    competition_id?: string | null
     match_name?: string | null
+    message?: string | null
     accreditation_type?: string
     status?: string
+    archived?: boolean
     response_message?: string | null
     zone_terrain?: boolean
     zone_tribune?: boolean
@@ -6348,8 +6415,10 @@ export namespace Prisma {
     organization?: StringFieldUpdateOperationsInput | string
     photo_url?: StringFieldUpdateOperationsInput | string
     match_name?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     accreditation_type?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
     response_message?: NullableStringFieldUpdateOperationsInput | string | null
     zone_terrain?: BoolFieldUpdateOperationsInput | boolean
     zone_tribune?: BoolFieldUpdateOperationsInput | boolean
@@ -6369,10 +6438,12 @@ export namespace Prisma {
     organization?: StringFieldUpdateOperationsInput | string
     function_id?: StringFieldUpdateOperationsInput | string
     photo_url?: StringFieldUpdateOperationsInput | string
-    competition_id?: StringFieldUpdateOperationsInput | string
+    competition_id?: NullableStringFieldUpdateOperationsInput | string | null
     match_name?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     accreditation_type?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
     response_message?: NullableStringFieldUpdateOperationsInput | string | null
     zone_terrain?: BoolFieldUpdateOperationsInput | boolean
     zone_tribune?: BoolFieldUpdateOperationsInput | boolean
@@ -6577,11 +6648,6 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type UuidNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -6592,6 +6658,11 @@ export namespace Prisma {
     gte?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -6605,9 +6676,9 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type Accred_competitionsScalarRelationFilter = {
-    is?: accred_competitionsWhereInput
-    isNot?: accred_competitionsWhereInput
+  export type Accred_competitionsNullableScalarRelationFilter = {
+    is?: accred_competitionsWhereInput | null
+    isNot?: accred_competitionsWhereInput | null
   }
 
   export type Accred_functionsScalarRelationFilter = {
@@ -6626,8 +6697,10 @@ export namespace Prisma {
     photo_url?: SortOrder
     competition_id?: SortOrder
     match_name?: SortOrder
+    message?: SortOrder
     accreditation_type?: SortOrder
     status?: SortOrder
+    archived?: SortOrder
     response_message?: SortOrder
     zone_terrain?: SortOrder
     zone_tribune?: SortOrder
@@ -6649,8 +6722,10 @@ export namespace Prisma {
     photo_url?: SortOrder
     competition_id?: SortOrder
     match_name?: SortOrder
+    message?: SortOrder
     accreditation_type?: SortOrder
     status?: SortOrder
+    archived?: SortOrder
     response_message?: SortOrder
     zone_terrain?: SortOrder
     zone_tribune?: SortOrder
@@ -6672,8 +6747,10 @@ export namespace Prisma {
     photo_url?: SortOrder
     competition_id?: SortOrder
     match_name?: SortOrder
+    message?: SortOrder
     accreditation_type?: SortOrder
     status?: SortOrder
+    archived?: SortOrder
     response_message?: SortOrder
     zone_terrain?: SortOrder
     zone_tribune?: SortOrder
@@ -6702,14 +6779,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type UuidNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -6723,6 +6792,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -6859,10 +6936,12 @@ export namespace Prisma {
     set?: Date | string
   }
 
-  export type accred_competitionsUpdateOneRequiredWithoutRequestsNestedInput = {
+  export type accred_competitionsUpdateOneWithoutRequestsNestedInput = {
     create?: XOR<accred_competitionsCreateWithoutRequestsInput, accred_competitionsUncheckedCreateWithoutRequestsInput>
     connectOrCreate?: accred_competitionsCreateOrConnectWithoutRequestsInput
     upsert?: accred_competitionsUpsertWithoutRequestsInput
+    disconnect?: accred_competitionsWhereInput | boolean
+    delete?: accred_competitionsWhereInput | boolean
     connect?: accred_competitionsWhereUniqueInput
     update?: XOR<XOR<accred_competitionsUpdateToOneWithWhereWithoutRequestsInput, accred_competitionsUpdateWithoutRequestsInput>, accred_competitionsUncheckedUpdateWithoutRequestsInput>
   }
@@ -7005,11 +7084,6 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedUuidNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -7019,6 +7093,11 @@ export namespace Prisma {
     gt?: string | StringFieldRefInput<$PrismaModel>
     gte?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedUuidNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -7049,14 +7128,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedUuidNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -7069,6 +7140,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -7094,8 +7173,10 @@ export namespace Prisma {
     organization: string
     photo_url: string
     match_name?: string | null
+    message?: string | null
     accreditation_type?: string
     status?: string
+    archived?: boolean
     response_message?: string | null
     zone_terrain?: boolean
     zone_tribune?: boolean
@@ -7117,8 +7198,10 @@ export namespace Prisma {
     function_id: string
     photo_url: string
     match_name?: string | null
+    message?: string | null
     accreditation_type?: string
     status?: string
+    archived?: boolean
     response_message?: string | null
     zone_terrain?: boolean
     zone_tribune?: boolean
@@ -7167,10 +7250,12 @@ export namespace Prisma {
     organization?: StringFilter<"accred_requests"> | string
     function_id?: UuidFilter<"accred_requests"> | string
     photo_url?: StringFilter<"accred_requests"> | string
-    competition_id?: UuidFilter<"accred_requests"> | string
+    competition_id?: UuidNullableFilter<"accred_requests"> | string | null
     match_name?: StringNullableFilter<"accred_requests"> | string | null
+    message?: StringNullableFilter<"accred_requests"> | string | null
     accreditation_type?: StringFilter<"accred_requests"> | string
     status?: StringFilter<"accred_requests"> | string
+    archived?: BoolFilter<"accred_requests"> | boolean
     response_message?: StringNullableFilter<"accred_requests"> | string | null
     zone_terrain?: BoolFilter<"accred_requests"> | boolean
     zone_tribune?: BoolFilter<"accred_requests"> | boolean
@@ -7190,8 +7275,10 @@ export namespace Prisma {
     organization: string
     photo_url: string
     match_name?: string | null
+    message?: string | null
     accreditation_type?: string
     status?: string
+    archived?: boolean
     response_message?: string | null
     zone_terrain?: boolean
     zone_tribune?: boolean
@@ -7200,7 +7287,7 @@ export namespace Prisma {
     reviewed_by?: string | null
     reviewed_at?: Date | string | null
     created_at?: Date | string
-    competition: accred_competitionsCreateNestedOneWithoutRequestsInput
+    competition?: accred_competitionsCreateNestedOneWithoutRequestsInput
   }
 
   export type accred_requestsUncheckedCreateWithoutFunctionInput = {
@@ -7211,10 +7298,12 @@ export namespace Prisma {
     phone?: string | null
     organization: string
     photo_url: string
-    competition_id: string
+    competition_id?: string | null
     match_name?: string | null
+    message?: string | null
     accreditation_type?: string
     status?: string
+    archived?: boolean
     response_message?: string | null
     zone_terrain?: boolean
     zone_tribune?: boolean
@@ -7353,8 +7442,10 @@ export namespace Prisma {
     function_id: string
     photo_url: string
     match_name?: string | null
+    message?: string | null
     accreditation_type?: string
     status?: string
+    archived?: boolean
     response_message?: string | null
     zone_terrain?: boolean
     zone_tribune?: boolean
@@ -7374,8 +7465,10 @@ export namespace Prisma {
     organization?: StringFieldUpdateOperationsInput | string
     photo_url?: StringFieldUpdateOperationsInput | string
     match_name?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     accreditation_type?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
     response_message?: NullableStringFieldUpdateOperationsInput | string | null
     zone_terrain?: BoolFieldUpdateOperationsInput | boolean
     zone_tribune?: BoolFieldUpdateOperationsInput | boolean
@@ -7397,8 +7490,10 @@ export namespace Prisma {
     function_id?: StringFieldUpdateOperationsInput | string
     photo_url?: StringFieldUpdateOperationsInput | string
     match_name?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     accreditation_type?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
     response_message?: NullableStringFieldUpdateOperationsInput | string | null
     zone_terrain?: BoolFieldUpdateOperationsInput | boolean
     zone_tribune?: BoolFieldUpdateOperationsInput | boolean
@@ -7419,8 +7514,10 @@ export namespace Prisma {
     function_id?: StringFieldUpdateOperationsInput | string
     photo_url?: StringFieldUpdateOperationsInput | string
     match_name?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     accreditation_type?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
     response_message?: NullableStringFieldUpdateOperationsInput | string | null
     zone_terrain?: BoolFieldUpdateOperationsInput | boolean
     zone_tribune?: BoolFieldUpdateOperationsInput | boolean
@@ -7439,10 +7536,12 @@ export namespace Prisma {
     phone?: string | null
     organization: string
     photo_url: string
-    competition_id: string
+    competition_id?: string | null
     match_name?: string | null
+    message?: string | null
     accreditation_type?: string
     status?: string
+    archived?: boolean
     response_message?: string | null
     zone_terrain?: boolean
     zone_tribune?: boolean
@@ -7462,8 +7561,10 @@ export namespace Prisma {
     organization?: StringFieldUpdateOperationsInput | string
     photo_url?: StringFieldUpdateOperationsInput | string
     match_name?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     accreditation_type?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
     response_message?: NullableStringFieldUpdateOperationsInput | string | null
     zone_terrain?: BoolFieldUpdateOperationsInput | boolean
     zone_tribune?: BoolFieldUpdateOperationsInput | boolean
@@ -7472,7 +7573,7 @@ export namespace Prisma {
     reviewed_by?: NullableStringFieldUpdateOperationsInput | string | null
     reviewed_at?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     created_at?: DateTimeFieldUpdateOperationsInput | Date | string
-    competition?: accred_competitionsUpdateOneRequiredWithoutRequestsNestedInput
+    competition?: accred_competitionsUpdateOneWithoutRequestsNestedInput
   }
 
   export type accred_requestsUncheckedUpdateWithoutFunctionInput = {
@@ -7483,10 +7584,12 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     organization?: StringFieldUpdateOperationsInput | string
     photo_url?: StringFieldUpdateOperationsInput | string
-    competition_id?: StringFieldUpdateOperationsInput | string
+    competition_id?: NullableStringFieldUpdateOperationsInput | string | null
     match_name?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     accreditation_type?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
     response_message?: NullableStringFieldUpdateOperationsInput | string | null
     zone_terrain?: BoolFieldUpdateOperationsInput | boolean
     zone_tribune?: BoolFieldUpdateOperationsInput | boolean
@@ -7505,10 +7608,12 @@ export namespace Prisma {
     phone?: NullableStringFieldUpdateOperationsInput | string | null
     organization?: StringFieldUpdateOperationsInput | string
     photo_url?: StringFieldUpdateOperationsInput | string
-    competition_id?: StringFieldUpdateOperationsInput | string
+    competition_id?: NullableStringFieldUpdateOperationsInput | string | null
     match_name?: NullableStringFieldUpdateOperationsInput | string | null
+    message?: NullableStringFieldUpdateOperationsInput | string | null
     accreditation_type?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    archived?: BoolFieldUpdateOperationsInput | boolean
     response_message?: NullableStringFieldUpdateOperationsInput | string | null
     zone_terrain?: BoolFieldUpdateOperationsInput | boolean
     zone_tribune?: BoolFieldUpdateOperationsInput | boolean

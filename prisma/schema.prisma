@@ -62,10 +62,12 @@ model accred_requests {
   organization     String
   function_id      String              @db.Uuid
   photo_url        String
-  competition_id   String              @db.Uuid
+  competition_id   String?             @db.Uuid // null si accreditation_type = permanente (donne accès à toutes les compétitions, indiqué sur le badge)
   match_name       String?
+  message          String? // commentaire libre du demandeur, visible admin + email de notification
   accreditation_type String            @default("ponctuelle") // ponctuelle | permanente
   status           String              @default("pending") // pending | approved | rejected
+  archived         Boolean             @default(false)
   response_message String?
   zone_terrain     Boolean             @default(false)
   zone_tribune     Boolean             @default(false)
@@ -74,7 +76,7 @@ model accred_requests {
   reviewed_by      String?             @db.Uuid
   reviewed_at      DateTime?           @db.Timestamptz(6)
   created_at       DateTime            @default(now()) @db.Timestamptz(6)
-  competition      accred_competitions @relation(fields: [competition_id], references: [id])
+  competition      accred_competitions? @relation(fields: [competition_id], references: [id])
   function         accred_functions    @relation(fields: [function_id], references: [id])
 
   @@schema("accred")
