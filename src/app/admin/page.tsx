@@ -19,6 +19,7 @@ export default async function AdminRequestsPage() {
         phone: r.phone,
         organization: r.organization,
         functionName: r.function.name,
+        accreditationType: r.accreditation_type as 'ponctuelle' | 'permanente',
         competitionName: r.competition.name,
         matchName: r.match_name,
         photoUrl: r.photo_url,

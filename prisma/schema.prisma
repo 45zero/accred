@@ -63,7 +63,8 @@ model accred_requests {
   function_id      String              @db.Uuid
   photo_url        String
   competition_id   String              @db.Uuid
-  match_name       String
+  match_name       String?
+  accreditation_type String            @default("ponctuelle") // ponctuelle | permanente
   status           String              @default("pending") // pending | approved | rejected
   response_message String?
   zone_terrain     Boolean             @default(false)

@@ -43,6 +43,7 @@ export default function DemandeForm({ functions, competitions }: { functions: Op
   const [phone, setPhone] = useState('')
   const [organization, setOrganization] = useState('')
   const [functionId, setFunctionId] = useState('')
+  const [accreditationType, setAccreditationType] = useState<'ponctuelle' | 'permanente'>('ponctuelle')
   const [competitionId, setCompetitionId] = useState('')
   const [matchName, setMatchName] = useState('')
 
@@ -56,7 +57,8 @@ export default function DemandeForm({ functions, competitions }: { functions: Op
   }
 
   async function handleSubmit() {
-    if (!photoFile || !lastName.trim() || !firstName.trim() || !email.trim() || !organization.trim() || !functionId || !competitionId || !matchName.trim()) {
+    const matchRequired = accreditationType === 'ponctuelle'
+    if (!photoFile || !lastName.trim() || !firstName.trim() || !email.trim() || !organization.trim() || !functionId || !competitionId || (matchRequired && !matchName.trim())) {
       setError('Merci de compléter tous les champs obligatoires.')
       return
     }
@@ -80,8 +82,9 @@ export default function DemandeForm({ functions, competitions }: { functions: Op
       phone,
       organization,
       functionId,
+      accreditationType,
       competitionId,
-      matchName,
+      matchName: matchRequired ? matchName : undefined,
       photoUrl: pub.publicUrl,
     })
 
@@ -201,16 +204,33 @@ export default function DemandeForm({ functions, competitions }: { functions: Op
           {/* Événement concerné */}
           <SectionTitle icon={<CalendarDays size={18} color={NAVY} />}>ÉVÉNEMENT CONCERNÉ</SectionTitle>
 
-          <FormRow label="Compétition *">
+          <FormRow label="Type d'accréditation *">
+            <div style={{ display: 'flex', gap: 10 }}>
+              {(['ponctuelle', 'permanente'] as const).map(t => (
+                <label key={t} style={{
+                  flex: 1, display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer',
+                  border: '1.5px solid ' + (accreditationType === t ? NAVY : '#e0e0e0'), borderRadius: 10,
+                  padding: '12px 14px', background: accreditationType === t ? '#eef1f8' : '#fff',
+                }}>
+                  <input type="radio" name="accreditationType" checked={accreditationType === t} onChange={() => setAccreditationType(t)} />
+                  <span style={{ fontSize: 14, color: NAVY, fontWeight: 600, textTransform: 'capitalize' }}>{t}</span>
+                </label>
+              ))}
+            </div>
+          </FormRow>
+
+          <FormRow label="Compétition *" last={accreditationType === 'permanente'}>
             <select style={{ ...inputStyle, cursor: 'pointer' }} value={competitionId} onChange={e => setCompetitionId(e.target.value)}>
               <option value="">Sélectionnez une compétition</option>
               {competitions.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           </FormRow>
 
-          <FormRow label="Match *" last>
-            <input style={inputStyle} placeholder="Ex : FC Metz - AS Nancy" value={matchName} onChange={e => setMatchName(e.target.value)} />
-          </FormRow>
+          {accreditationType === 'ponctuelle' && (
+            <FormRow label="Match *" last>
+              <input style={inputStyle} placeholder="Ex : FC Metz - AS Nancy" value={matchName} onChange={e => setMatchName(e.target.value)} />
+            </FormRow>
+          )}
 
           {error && (
             <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: 8, padding: '10px 14px', color: RED, fontSize: 13, marginBottom: 20 }}>

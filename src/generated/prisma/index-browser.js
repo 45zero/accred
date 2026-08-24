@@ -153,6 +153,7 @@ exports.Prisma.Accred_requestsScalarFieldEnum = {
   photo_url: 'photo_url',
   competition_id: 'competition_id',
   match_name: 'match_name',
+  accreditation_type: 'accreditation_type',
   status: 'status',
   response_message: 'response_message',
   zone_terrain: 'zone_terrain',

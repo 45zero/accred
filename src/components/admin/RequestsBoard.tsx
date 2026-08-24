@@ -16,8 +16,9 @@ export type RequestItem = {
   phone: string | null
   organization: string
   functionName: string
+  accreditationType: 'ponctuelle' | 'permanente'
   competitionName: string
-  matchName: string
+  matchName: string | null
   photoUrl: string
   status: string
   responseMessage: string | null
@@ -109,13 +110,16 @@ function RequestCard({ request }: { request: RequestItem }) {
   }
 
   return (
-    <div style={{ background: '#fff', borderRadius: 12, padding: 20, boxShadow: '0 2px 10px rgba(0,0,0,0.04)' }}>
+    <div id={`request-${request.id}`} style={{ background: '#fff', borderRadius: 12, padding: 20, boxShadow: '0 2px 10px rgba(0,0,0,0.04)', scrollMarginTop: 20 }}>
       <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
         <img src={request.photoUrl} alt="" style={{ width: 64, height: 64, borderRadius: 10, objectFit: 'cover', background: '#eee', flexShrink: 0 }} />
         <div style={{ flex: 1 }}>
           <p style={{ fontWeight: 800, color: NAVY, fontSize: 16, margin: 0 }}>{request.firstName} {request.lastName}</p>
           <p style={{ color: '#666', fontSize: 13, margin: '2px 0 0' }}>{request.organization} · {request.functionName}</p>
-          <p style={{ color: '#666', fontSize: 13, margin: '2px 0 0' }}>{request.competitionName} — {request.matchName}</p>
+          <p style={{ color: '#666', fontSize: 13, margin: '2px 0 0' }}>
+            {request.competitionName}
+            {request.accreditationType === 'permanente' ? ' · Accréditation permanente' : ` — ${request.matchName}`}
+          </p>
           <p style={{ color: '#999', fontSize: 12, margin: '2px 0 0' }}>{request.email}{request.phone ? ` · ${request.phone}` : ''}</p>
         </div>
 

@@ -7,6 +7,17 @@ import { requireAccredAdmin } from '@/lib/auth/require-accred-admin'
 import { generateMediaBadgePdf } from '@/lib/mediaBadgePdf'
 import { sendResendEmail, emailShell } from '@/lib/email'
 
+type RequestWithRelations = Awaited<ReturnType<typeof prisma.accred_requests.findUniqueOrThrow<{
+  where: { id: string }
+  include: { function: true; competition: true }
+}>>>
+
+function eventLine(request: RequestWithRelations) {
+  return request.accreditation_type === 'permanente'
+    ? `${request.competition.name} (accréditation permanente)`
+    : `${request.competition.name} — ${request.match_name}`
+}
+
 async function notifyOthersHandled(requestId: string, handledByEmail: string, outcome: string) {
   const [request, admins] = await Promise.all([
     prisma.accred_requests.findUnique({ where: { id: requestId }, include: { function: true, competition: true } }),
@@ -16,7 +27,7 @@ async function notifyOthersHandled(requestId: string, handledByEmail: string, ou
 
   const html = emailShell('Demande traitée', `
     <p style="color:#333;font-size:14px;line-height:1.6;">
-      La demande de <strong>${request.first_name} ${request.last_name}</strong> (${request.competition.name} — ${request.match_name})
+      La demande de <strong>${request.first_name} ${request.last_name}</strong> (${eventLine(request)})
       a été <strong>${outcome}</strong> par ${handledByEmail}. Aucune action supplémentaire n'est nécessaire.
     </p>
   `)
@@ -40,6 +51,9 @@ export async function approveRequest(input: {
     include: { function: true, competition: true },
   })
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
+  const verifyUrl = `${siteUrl}/verify/${request.id}`
+
   let badgeBytes: Uint8Array | null = null
   try {
     const photoRes = await fetch(request.photo_url)
@@ -47,13 +61,16 @@ export async function approveRequest(input: {
       const photoBytes = new Uint8Array(await photoRes.arrayBuffer())
       const photoContentType = photoRes.headers.get('content-type') || 'image/jpeg'
       badgeBytes = await generateMediaBadgePdf({
+        accreditationType: request.accreditation_type as 'ponctuelle' | 'permanente',
         firstName: request.first_name,
         lastName: request.last_name,
         role: request.function.name,
-        matchName: request.match_name,
+        matchName: request.match_name ?? undefined,
         photoBytes,
         photoContentType,
         zones: { terrain: input.zoneTerrain, tribune: input.zoneTribune, vestiaires: input.zoneVestiaires },
+        verifyUrl,
+        fullPage: request.accreditation_type === 'permanente',
       })
     }
   } catch (e) {
@@ -92,7 +109,7 @@ export async function approveRequest(input: {
   const html = emailShell('Accréditation confirmée', `
     <p style="color:#333;font-size:14px;line-height:1.6;">
       Bonjour ${request.first_name},<br /><br />
-      Votre demande d'accréditation pour <strong>${request.competition.name} — ${request.match_name}</strong> est acceptée.
+      Votre demande d'accréditation pour <strong>${eventLine(request)}</strong> est acceptée.
       ${badgeBytes ? "Votre badge est joint à cet e-mail." : "Votre badge vous sera transmis séparément."}
     </p>
     ${input.message.trim() ? `<p style="color:#666;font-size:13px;">${input.message.trim()}</p>` : ''}

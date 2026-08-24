@@ -1,7 +1,7 @@
 'use server'
 
 import { prisma } from '@/lib/prisma'
-import { sendResendEmail, emailShell } from '@/lib/email'
+import { sendResendEmail, emailShell, emailButton } from '@/lib/email'
 
 export type SubmitAccredRequestInput = {
   firstName: string
@@ -10,8 +10,9 @@ export type SubmitAccredRequestInput = {
   phone: string
   organization: string
   functionId: string
+  accreditationType: 'ponctuelle' | 'permanente'
   competitionId: string
-  matchName: string
+  matchName?: string
   photoUrl: string
 }
 
@@ -20,9 +21,10 @@ export async function submitAccredRequest(input: SubmitAccredRequestInput): Prom
   const lastName = input.lastName.trim()
   const email = input.email.trim()
   const organization = input.organization.trim()
-  const matchName = input.matchName.trim()
+  const matchName = input.matchName?.trim() || ''
+  const matchRequired = input.accreditationType === 'ponctuelle'
 
-  if (!firstName || !lastName || !email || !organization || !input.functionId || !input.competitionId || !matchName || !input.photoUrl) {
+  if (!firstName || !lastName || !email || !organization || !input.functionId || !input.competitionId || !input.photoUrl || (matchRequired && !matchName)) {
     return { error: 'Champs requis manquants.' }
   }
 
@@ -34,8 +36,9 @@ export async function submitAccredRequest(input: SubmitAccredRequestInput): Prom
       phone: input.phone.trim() || null,
       organization,
       function_id: input.functionId,
+      accreditation_type: input.accreditationType,
       competition_id: input.competitionId,
-      match_name: matchName,
+      match_name: matchRequired ? matchName : null,
       photo_url: input.photoUrl,
     },
   })
@@ -55,12 +58,17 @@ async function notifyAdminsOfNewRequest(requestId: string) {
   ])
   if (!request || admins.length === 0) return
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? ''
+  const eventLine = request.accreditation_type === 'permanente'
+    ? `<strong>${request.competition.name}</strong> (accréditation permanente)`
+    : `<strong>${request.competition.name}</strong> — ${request.match_name}`
+
   const html = emailShell('Nouvelle demande d\'accréditation', `
     <p style="color:#333;font-size:14px;line-height:1.6;">
       <strong>${request.first_name} ${request.last_name}</strong> (${request.organization}) demande une accréditation
-      ${request.function.name.toLowerCase()} pour <strong>${request.competition.name}</strong> — ${request.match_name}.
+      ${request.function.name.toLowerCase()} pour ${eventLine}.
     </p>
-    <p style="color:#666;font-size:13px;">Connectez-vous à l'admin accréditations pour traiter cette demande.</p>
+    ${emailButton(`${siteUrl}/admin#request-${request.id}`, 'Traiter cette demande')}
   `)
 
   await Promise.all(
