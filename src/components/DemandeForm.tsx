@@ -177,8 +177,11 @@ export default function DemandeForm({ functions, competitions }: { functions: Op
             >
               {!photoPreview && (<><Camera size={26} /><span>Prendre une photo<br />ou importer un fichier</span></>)}
             </label>
-            {/* Pas d'attribut `capture` : laisse le navigateur proposer "Prendre une photo" ET "Choisir un fichier". */}
-            <input id="photo-input" type="file" accept="image/*" style={{ display: 'none' }}
+            {/* Pas d'attribut `capture` : laisse le navigateur proposer "Prendre une photo" ET "Choisir un fichier".
+                `display:none` empêche ce choix natif sur certains mobiles (surtout Safari iOS) : on masque
+                visuellement l'input autrement, en le gardant techniquement présent/cliquable. */}
+            <input id="photo-input" type="file" accept="image/*"
+              style={{ position: 'absolute', width: 1, height: 1, padding: 0, margin: -1, overflow: 'hidden', clip: 'rect(0,0,0,0)', border: 0 }}
               onChange={e => handlePhotoChange(e.target.files?.[0] ?? null)} />
           </div>
 
