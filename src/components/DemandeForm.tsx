@@ -164,23 +164,25 @@ export default function DemandeForm({ functions, competitions }: { functions: Op
           {/* Informations du demandeur */}
           <SectionTitle icon={<User size={18} color={NAVY} />}>INFORMATIONS DU DEMANDEUR</SectionTitle>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '148px 1fr 1fr', gap: 16, marginBottom: 20 }}>
-            <div>
-              <label style={labelStyle}>Photo *</label>
-              <label
-                htmlFor="photo-input"
-                style={{
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
-                  width: 148, height: 148, borderRadius: 12, border: '2px dashed #cbd5e1', cursor: 'pointer',
-                  background: photoPreview ? `#fff url(${photoPreview}) center/cover no-repeat` : '#f8fafc',
-                  color: '#64748b', textAlign: 'center', fontSize: 12, gap: 8,
-                }}
-              >
-                {!photoPreview && (<><Camera size={26} /><span>Ajouter<br />une photo</span></>)}
-              </label>
-              <input id="photo-input" type="file" accept="image/png,image/jpeg" style={{ display: 'none' }}
-                onChange={e => handlePhotoChange(e.target.files?.[0] ?? null)} />
-            </div>
+          <div style={{ marginBottom: 20 }}>
+            <label style={labelStyle}>Photo *</label>
+            <label
+              htmlFor="photo-input"
+              style={{
+                display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                width: 148, height: 148, borderRadius: 12, border: '2px dashed #cbd5e1', cursor: 'pointer',
+                background: photoPreview ? `#fff url(${photoPreview}) center/cover no-repeat` : '#f8fafc',
+                color: '#64748b', textAlign: 'center', fontSize: 12, gap: 8,
+              }}
+            >
+              {!photoPreview && (<><Camera size={26} /><span>Prendre une photo<br />ou importer un fichier</span></>)}
+            </label>
+            {/* Pas d'attribut `capture` : laisse le navigateur proposer "Prendre une photo" ET "Choisir un fichier". */}
+            <input id="photo-input" type="file" accept="image/*" style={{ display: 'none' }}
+              onChange={e => handlePhotoChange(e.target.files?.[0] ?? null)} />
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 20 }}>
             <div>
               <label style={labelStyle}>Nom *</label>
               <input style={inputStyle} placeholder="Votre nom" value={lastName} onChange={e => setLastName(e.target.value)} />
